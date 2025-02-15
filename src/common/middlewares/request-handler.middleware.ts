@@ -16,18 +16,19 @@ export function RequestHandlerMiddleware(
   _res: Response,
   next: NextFunction,
 ) {
-  Logger.log(process.env.DEV_SHOW_REQUEST_IN_LOGS)
   if (
     process.env.DEV_SHOW_REQUEST_IN_LOGS === 'true' &&
     !logRequestPathIgnoreList.includes(req.baseUrl)
   ) {
-    const logger = new Logger(
-      `RequestHandlerMiddleware:${req.headers[TRACE_ID_HEADER_KEY]}`,
-    );
+    const traceId = (
+      req?.headers?.[TRACE_ID_HEADER_KEY] || 'NoTraceId'
+    ).toString();
+    const logger = new Logger(`RequestHandlerMiddleware:${traceId}`);
     logger.debug({
       method: req.method,
       path: req.baseUrl,
       query: req.query,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       body: req.body,
     });
   }

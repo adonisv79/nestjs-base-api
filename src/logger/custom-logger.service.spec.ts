@@ -24,23 +24,23 @@ describe('CustomLoggerService', () => {
   });
 
   describe('Should be able to wrap Logger functions', () => {
-    it('Should be able to modify Log and call the built-in Logger.log', async () => {
+    it('Should be able to modify Log and call the built-in Logger.log', () => {
       loggerService.log('Test log');
       expect(Logger.log).toHaveBeenCalled();
     });
-    it('Should be able to modify Log and call the built-in Logger.debug', async () => {
+    it('Should be able to modify Log and call the built-in Logger.debug', () => {
       loggerService.debug('Test debug');
       expect(Logger.debug).toHaveBeenCalled();
     });
-    it('Should be able to modify Log and call the built-in Logger.error', async () => {
-      loggerService.error('Test error', 'stack trace test');
+    it('Should be able to modify Log and call the built-in Logger.error', () => {
+      loggerService.error('Test error');
       expect(Logger.error).toHaveBeenCalled();
     });
-    it('Should be able to modify Log and call the built-in Logger.verbose', async () => {
+    it('Should be able to modify Log and call the built-in Logger.verbose', () => {
       loggerService.verbose('Test verbose');
       expect(Logger.verbose).toHaveBeenCalled();
     });
-    it('Should be able to modify Log and call the built-in Logger.warn', async () => {
+    it('Should be able to modify Log and call the built-in Logger.warn', () => {
       loggerService.warn('Test warn');
       expect(Logger.warn).toHaveBeenCalled();
     });

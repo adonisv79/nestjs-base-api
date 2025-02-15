@@ -1,7 +1,6 @@
 import {
   DynamicModule,
   ForwardReference,
-  Logger,
   MiddlewareConsumer,
   Module,
   NestModule,
@@ -14,8 +13,6 @@ import { RequestHandlerMiddleware } from 'src/common/middlewares/request-handler
 import { ConfigModule } from '@nestjs/config';
 import apiConfiguration from 'config/api.configuration';
 import { CustomLoggerModule } from 'src/logger/custom-logger.module';
-
-const logger = new Logger('AppModule');
 
 const imports: (
   | Type
