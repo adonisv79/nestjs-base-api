@@ -1,15 +1,11 @@
 import { RequestHandlerMiddleware } from './request-handler.middleware';
 import { Logger } from '@nestjs/common';
+import * as Common from '@nestjs/common';
 import { Request, Response } from 'express';
+jest.mock('@nestjs/common');
 
-const loggerDebugMock = jest.fn();
-
-// Mocking Logger
-jest.mock('@nestjs/common', () => ({
-  Logger: jest.fn().mockImplementation(() => ({
-    debug: loggerDebugMock,
-  })),
-}));
+const logger = jest.spyOn(Common, 'Logger');
+const loggerDebugSpy = jest.spyOn(Logger.prototype, 'debug');
 
 describe('RequestHandlerMiddleware', () => {
   let mockReq: Partial<Request>;
@@ -31,6 +27,8 @@ describe('RequestHandlerMiddleware', () => {
   });
 
   afterEach(() => {
+    logger.mockRestore();
+    loggerDebugSpy.mockRestore();
     jest.clearAllMocks();
   });
 
@@ -41,8 +39,8 @@ describe('RequestHandlerMiddleware', () => {
     RequestHandlerMiddleware(mockReq as Request, mockRes as Response, mockNext);
 
     // Check if Logger.debug was called with correct arguments
-    expect(Logger).toHaveBeenCalledWith('RequestHandlerMiddleware:123456');
-    expect(loggerDebugMock).toHaveBeenCalledWith({
+    expect(logger).toHaveBeenCalledWith('RequestHandlerMiddleware:123456');
+    expect(loggerDebugSpy).toHaveBeenCalledWith({
       method: 'GET',
       path: '/test-path',
       query: { key: 'value' },
@@ -62,8 +60,8 @@ describe('RequestHandlerMiddleware', () => {
     RequestHandlerMiddleware(mockReq as Request, mockRes as Response, mockNext);
 
     // Ensure Logger.debug was not called
-    expect(Logger).not.toHaveBeenCalled();
-    expect(loggerDebugMock).not.toHaveBeenCalled();
+    expect(logger).not.toHaveBeenCalled();
+    expect(loggerDebugSpy).not.toHaveBeenCalled();
 
     // Ensure the next function is called
     expect(mockNext).toHaveBeenCalled();
@@ -76,7 +74,7 @@ describe('RequestHandlerMiddleware', () => {
     RequestHandlerMiddleware(mockReq as Request, mockRes as Response, mockNext);
 
     // Ensure Logger.debug was not called
-    expect(Logger).not.toHaveBeenCalled();
+    expect(logger).not.toHaveBeenCalled();
 
     // Ensure the next function is called
     expect(mockNext).toHaveBeenCalled();

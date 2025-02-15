@@ -13,6 +13,7 @@ import { TraceIdMiddleware } from 'src/common/middlewares/trace-id.middleware';
 import { RequestHandlerMiddleware } from 'src/common/middlewares/request-handler.middleware';
 import { ConfigModule } from '@nestjs/config';
 import apiConfiguration from 'config/api.configuration';
+import { CustomLoggerModule } from 'src/logger/custom-logger.module';
 
 const logger = new Logger('AppModule');
 
@@ -24,6 +25,7 @@ const imports: (
 )[] = [];
 
 importConfigurations();
+importServiceModules();
 
 function importConfigurations() {
   imports.push(
@@ -32,6 +34,10 @@ function importConfigurations() {
       isGlobal: true,
     }),
   );
+}
+
+function importServiceModules() {
+  imports.push(CustomLoggerModule);
 }
 
 @Module({

@@ -22,7 +22,7 @@ describe('TraceIdMiddleware', () => {
 
     // Assert: Check if the trace ID was set on the request and response
     expect(req['x-trace-id']).toBeDefined();
-    expect(req.headers['x-trace-id']).toBeDefined();
+    expect(req.headers?.['x-trace-id']).toBeDefined();
     expect(res.setHeader).toHaveBeenCalledWith(
       'x-trace-id',
       expect.any(String),
@@ -35,6 +35,7 @@ describe('TraceIdMiddleware', () => {
   it('should use the provided x-trace-id from request headers if available', () => {
     // Arrange: Set x-trace-id in the request headers
     const existingTraceId = 'TID1234abcd';
+    req.headers = req.headers || {};
     req.headers['x-trace-id'] = existingTraceId;
 
     // Act: Call the middleware with the mock request, response, and next function
@@ -42,7 +43,7 @@ describe('TraceIdMiddleware', () => {
 
     // Assert: Check if the trace ID is the one from the request headers
     expect(req['x-trace-id']).toBe(existingTraceId);
-    expect(req.headers['x-trace-id']).toBe(existingTraceId);
+    expect(req.headers?.['x-trace-id']).toBe(existingTraceId);
     expect(res.setHeader).toHaveBeenCalledWith('x-trace-id', existingTraceId);
 
     // Assert: Ensure the next function was called
