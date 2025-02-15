@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 import { TRACE_ID_HEADER_KEY } from './trace-id.middleware';
 
 // set paths here that you do not need to appear on logs. example is /heartbeat requests as it is spammy
-const logRequestPathIgnoreList = ['', '/heartbeat', '/health', '/favicon.ico'];
+const logRequestPathIgnoreList = ['/heartbeat', '/health', '/favicon.ico'];
 
 /**
  * This middleware is responsible for handling features that are triggered when a request occurs
