@@ -1,6 +1,6 @@
+import { randomBytes } from 'crypto';
 import { Request, Response, NextFunction } from 'express';
 export const TRACE_ID_HEADER_KEY = 'x-trace-id';
-const BASE_36 = 36; // Base for generating the random string (base-36)
 const RANDOM_STRING_LENGTH = 6; // Length of the random string
 
 export function TraceIdMiddleware(
@@ -9,9 +9,9 @@ export function TraceIdMiddleware(
   next: NextFunction,
 ) {
   const timestamp = Date.now();
-  const randomString = Math.random()
-    .toString(BASE_36)
-    .substring(2, RANDOM_STRING_LENGTH);
+  const randomString = randomBytes(RANDOM_STRING_LENGTH)
+    .toString('base64url') // URL-safe base64 encoding
+    .substring(0, RANDOM_STRING_LENGTH);
   const traceId =
     (req.headers[TRACE_ID_HEADER_KEY] as string) ||
     `TID${timestamp}${randomString}`;
