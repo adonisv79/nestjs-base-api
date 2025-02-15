@@ -16,8 +16,8 @@ export class CustomLoggerService implements LoggerService {
     Logger.log(`${message}`, this.getTraceId());
   }
 
-  error(message: string, trace: string) {
-    Logger.error(`${message}`, trace, this.getTraceId());
+  error(message: string) {
+    Logger.error(`${message}`, this.getTraceId());
   }
 
   warn(message: string) {
@@ -33,6 +33,7 @@ export class CustomLoggerService implements LoggerService {
   }
 
   private getTraceId(): string {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const jwtValues: jwtSchema = this.request
       ? this.request['user']
       : { sub: 'sub-unknown' };

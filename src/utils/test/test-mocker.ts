@@ -15,14 +15,12 @@ export class TestMocker {
         const Mock = moduleMocker.generateFromMetadata(mockMetadata);
         return new (Mock as new (...args: unknown[]) => T)();
       }
-      return;
     };
   }
 
-  static createConfigServiceMock(value: {
-    api?: Partial<APIConfigurations>;
-  }) {
+  static createConfigServiceMock(value: { api?: Partial<APIConfigurations> }) {
     return {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       get: (key: string) => value[key],
     };
   }

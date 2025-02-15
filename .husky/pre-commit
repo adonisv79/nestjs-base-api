@@ -1,0 +1,10 @@
+# Make sure the dependencies are valid
+pnpm audit
+# Prettier should run first before eslint checks
+pnpm run format --check
+# Test well formatted code
+pnpm run lint
+# Now we make sure test rules are followed
+pnpm run test:cov
+# Finaly we make a test distributable code.
+pnpm run build
