@@ -7,9 +7,7 @@
 
 ## References
 
-* Jira: https://jira.pccwglobal.com/browse/[ticket-ref]
-* Figma (optional): https://www.figma.com/[path]
-* Confluence (optional): https://consoleconnect.atlassian.net/wiki/spaces/[path]
+* Ticket URL:
 
 ## Checklist before requesting a review
 
