@@ -13,6 +13,7 @@ import { RequestHandlerMiddleware } from 'src/common/middlewares/request-handler
 import { ConfigModule } from '@nestjs/config';
 import apiConfiguration from 'config/api.configuration';
 import { CustomLoggerModule } from 'src/logger/custom-logger.module';
+import { HealthModule } from 'src/health/health.module';
 
 const imports: (
   | Type
@@ -35,6 +36,7 @@ function importConfigurations() {
 
 function importServiceModules() {
   imports.push(CustomLoggerModule);
+  imports.push(HealthModule);
 }
 
 @Module({
