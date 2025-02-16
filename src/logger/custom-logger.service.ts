@@ -34,7 +34,7 @@ export class CustomLoggerService implements LoggerService {
 
   private getTraceId(): string {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const jwtValues: jwtSchema = this.request
+    const jwtValues: jwtSchema = this.request?.['user']
       ? this.request['user']
       : { sub: 'sub-unknown' };
     const traceId = (
