@@ -1,66 +1,18 @@
-import {
-  Controller,
-  Get,
-  NotAcceptableException,
-  NotFoundException,
-  Post,
-} from '@nestjs/common';
-import { RedisService } from 'src/redis/redis.service';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { GameSessionService } from './game-session.service';
+import { CreateGameSessionPayloadDto } from './game-session.dto';
 
-/** This key references the game session state values */
-const redisKeyGameSession = 'game-session';
-/** This key identifies with what game session id the user is involved in */
-const redisKeyUserGameSession = 'user-game-session';
-
-interface GameSession {
-  players: string[];
-}
-
-@Controller('game/session')
+@Controller('game/sessions')
 export class GameSessionController {
-  constructor(private readonly redis: RedisService) {}
+  constructor(private readonly gameSession: GameSessionService) {}
 
-  @Get()
-  async getUserGameSession(userId: string) {
-    userId = 'don';
-    const sessionId = await this.redis.get(
-      `${redisKeyUserGameSession}:${userId}`,
-    );
-    if (!sessionId) {
-      throw new NotFoundException('No session found for user');
-    }
-    return await this.redis.get(`${redisKeyGameSession}:${sessionId}`);
+  @Get(':sessionId')
+  async getUserGameSession(@Param('sessionId') sessionId: string) {
+    return await this.gameSession.getGameSession(sessionId);
   }
 
   @Post()
-  async joinGameSession(userId: string, sessionId: string) {
-    userId = 'don';
-    sessionId = 'banana';
-    const currentSessionId = await this.redis.get(
-      `${redisKeyUserGameSession}:${userId}`,
-    );
-
-    if (currentSessionId) {
-      throw new NotAcceptableException(
-        `User ${userId} is already subscribed to GameSession#${currentSessionId}`,
-      );
-    }
-
-    let currentGameSession = await this.redis.get(
-      `${redisKeyGameSession}:${sessionId}`,
-    );
-
-    if (!currentGameSession) {
-      currentGameSession = '{ "players": [] }';
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const currentGameSessionJson: GameSession = JSON.parse(currentGameSession);
-    currentGameSessionJson.players.push(userId);
-    await this.redis.set(`${redisKeyUserGameSession}:${userId}`, sessionId);
-    await this.redis.set(
-      `${redisKeyGameSession}:${sessionId}`,
-      JSON.stringify(currentGameSessionJson),
-    );
+  async createGameSession(@Body() payload: CreateGameSessionPayloadDto) {
+    return await this.gameSession.createGameSession(payload.players);
   }
 }
