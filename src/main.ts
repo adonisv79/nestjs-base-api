@@ -29,7 +29,7 @@ async function bootstrap() {
   if (apiConfig?.showDocs) {
     bootstrapSwagger(app);
   }
-  await app.listen(process.env.PORT ?? 5000);
+  await app.listen(process.env.PORT ?? 3000);
 }
 
 function bootstrapSwagger(app: INestApplication) {

@@ -2,7 +2,7 @@ export interface ErrorData {
   [key: string]: string | number | boolean;
 }
 
-export class OpenTCGError extends Error {
+export class CustomError extends Error {
   private readonly code: string;
   private readonly data: ErrorData | null;
   constructor(message: string, code: string, data?: ErrorData) {
