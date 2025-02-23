@@ -14,6 +14,7 @@ import { ConfigModule } from '@nestjs/config';
 import apiConfiguration from 'config/api.configuration';
 import { CustomLoggerModule } from 'src/logger/custom-logger.module';
 import { HealthModule } from 'src/health/health.module';
+import { AuthModule } from 'src/auth/auth.module';
 
 const imports: (
   | Type
@@ -36,6 +37,7 @@ function importConfigurations() {
 
 function importServiceModules() {
   imports.push(CustomLoggerModule);
+  imports.push(AuthModule);
   imports.push(HealthModule);
 }
 
