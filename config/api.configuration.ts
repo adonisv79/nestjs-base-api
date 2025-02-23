@@ -1,7 +1,4 @@
 export type APIConfigurations = {
-  port: number;
-  secret: string;
-  showDocs: boolean;
   health: {
     gracefulShutdownTimeoutMs: number;
     httpCheckUri: string;
@@ -10,15 +7,31 @@ export type APIConfigurations = {
     storagePath: string;
     storageWarnThreshold: number;
   };
+  port: number;
+  secret: string;
+  security: {
+    cors: { allowedorigins?: string };
+  };
+  showDocs: boolean;
+  url: string;
+};
+
+export type AuthConfigurations = {
+  domainUri: string;
 };
 
 const aMegabyteInBytes = 1024 * 1024;
 
-export default (): { api: APIConfigurations } => ({
+export default (): { api: APIConfigurations; auth: AuthConfigurations } => ({
   api: {
     port: parseInt(process.env.API_PORT ?? '5000', 10),
     secret: process.env.API_SECRET ?? '',
-    showDocs: process.env.API_SHOW_DOCS?.toLowerCase() === 'true' || false,
+    security: {
+      cors: {
+        allowedorigins: process.env.API_CORS_ALLOWED_ORIGINS,
+      },
+    },
+    showDocs: process.env.DEV_SHOW_API_DOCS?.toLowerCase() === 'true' || false,
     health: {
       gracefulShutdownTimeoutMs:
         parseInt(
@@ -42,5 +55,9 @@ export default (): { api: APIConfigurations } => ({
         process.env.TERMINUS_HEALTHCHECK_STORAGE_THRESHOLD ?? '0.5',
       ),
     },
+    url: process.env.API_URL ?? 'http://localhost:5000',
+  },
+  auth: {
+    domainUri: `https://${process.env.AUTH0_DOMAIN}`,
   },
 });

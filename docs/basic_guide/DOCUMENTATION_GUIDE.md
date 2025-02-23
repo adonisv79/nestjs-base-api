@@ -7,7 +7,7 @@ Documentation helps us understand the hows and whys of things. While the code it
   * http://localhost:5000/api - API Documentation
   * http://localhost:5000/openapi.json - Swagger JSON file data
 
-> Make sure to set API_SHOW_DOCS=TRUE in your environment or the /api route will not be available
+> Make sure to set DEV_SHOW_API_DOCS=TRUE in your environment or the /api route will not be available
 
 ### Documenting your endpoints
 
