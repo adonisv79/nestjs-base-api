@@ -15,6 +15,7 @@ import apiConfiguration from 'config/api.configuration';
 import { CustomLoggerModule } from 'src/logger/custom-logger.module';
 import { HealthModule } from 'src/health/health.module';
 import { GameSessionModule } from 'src/game-session/game-session.module';
+import { AuthModule } from 'src/auth/auth.module';
 
 const imports: (
   | Type
@@ -38,6 +39,7 @@ function importConfigurations() {
 function importServiceModules() {
   imports.push(CustomLoggerModule);
   imports.push(HealthModule);
+  imports.push(AuthModule);
   imports.push(GameSessionModule);
 }
 

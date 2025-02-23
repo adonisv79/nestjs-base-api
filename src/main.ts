@@ -29,6 +29,13 @@ async function bootstrap() {
   if (apiConfig?.showDocs) {
     bootstrapSwagger(app);
   }
+  if (process.env.API_CORS_ALLOWED_ORIGINS) {
+    app.enableCors({
+      origin: process.env.API_CORS_ALLOWED_ORIGINS,
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Authorization', 'Content-Type'],
+    });
+  }
   await app.listen(process.env.PORT ?? 5000);
 }
 
