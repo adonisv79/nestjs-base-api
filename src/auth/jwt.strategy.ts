@@ -10,6 +10,7 @@ import {
   AuthConfigurations,
 } from './../../config/api.configuration';
 import * as jwksRsa from 'jwks-rsa'; // Import JWKS
+import { RequestUser } from 'src/common/interfaces/authenticated-request.interface';
 
 interface JwtPayload {
   sub: string; // Auth0 user identifier
@@ -35,8 +36,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  validate(payload: JwtPayload) {
-    console.log('sadas');
+  validate(payload: JwtPayload): RequestUser {
     return { userId: payload.sub, username: payload.name }; // Attach user info to the request
   }
 }
